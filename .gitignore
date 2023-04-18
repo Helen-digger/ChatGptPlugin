@@ -1,0 +1,35 @@
+/.gradle/
+/build/
+/**/build/
+/docker/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+/bin/
+
+### IntelliJ IDEA ###
+/.idea/
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### other ###
+*.sublime-project
+*.sublime-workspace
+*.number
+build.xml
+build.properties
+/tmp/
+*.log
+*.orig
+*.hprof
+.buildpath
