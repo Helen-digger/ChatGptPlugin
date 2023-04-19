@@ -7,6 +7,8 @@ class ChatGptPlugin {
 
     companion object {
         const val ID_PLUGIN = "ChatGpt-IDEA"
+        const val ID_PLUGIN_APP = "$ID_PLUGIN-app"
+        const val PLUGIN_STORAGE = "chatgpt-idea.xml"
     }
 
     fun version(): String? {

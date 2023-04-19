@@ -1,27 +1,24 @@
 package com.helen.gptplugin.ui
 
+import com.helen.gptplugin.configuration.ApplicationConfigurationState
 import com.helen.gptplugin.util.PropertyValue
+import com.intellij.openapi.observable.util.whenStateChanged
 import com.intellij.openapi.ui.ComboBox
 import java.awt.BorderLayout
 
 import javax.swing.JPanel
 
-class ChatGptSettingsPanel : ChatGptPanel() {
+class ChatGptSettingsPanel : JPanel(BorderLayout()) {
 
-    @PropertyValue("chatgpt.model")
-    lateinit var models : String
-
-    @PropertyValue("chatgpt.temperature")
-    var temperature : Long = 0
-
-    var modelsBox: ComboBox<String>
+    var modelsBox: ComboBox<String> =
+            ComboBox<String>(ApplicationConfigurationState.settings.model.split(",").toTypedArray())
 
     init {
-        modelsBox = ComboBox<String>(models.split(",").toTypedArray())
-        initialise()
+        modelsBox.item = ApplicationConfigurationState.settings.selectedModel
+        initialize()
     }
 
-    private fun initialise() {
+    private fun initialize() {
         add(JPanel(), BorderLayout.CENTER)
         add(modelsBox)
     }
