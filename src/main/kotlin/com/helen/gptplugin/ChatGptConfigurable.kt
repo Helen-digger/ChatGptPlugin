@@ -5,11 +5,11 @@ import com.helen.gptplugin.ui.ChatGptSettingsPanel
 import com.intellij.openapi.options.Configurable
 import javax.swing.JComponent
 
-class ChatGptConfigurable() : Configurable {
+class ChatGptConfigurable : Configurable {
 
     private val configPanel = ChatGptSettingsPanel()
 
-    override fun createComponent(): JComponent? {
+    override fun createComponent(): JComponent {
         return configPanel
     }
 
@@ -18,8 +18,10 @@ class ChatGptConfigurable() : Configurable {
     }
 
     override fun apply() {
-        val state = ApplicationConfigurationState.instance
-        state.settings.model = configPanel.modelsBox.selectedItem!!.toString() //TODO
+        val state = ApplicationConfigurationState
+        configPanel.modelsBox.selectedItem?.let {
+            state.settings.selectedModel = it.toString()
+        }
     }
 
     override fun getDisplayName(): String {
