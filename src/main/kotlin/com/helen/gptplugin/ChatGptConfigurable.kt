@@ -22,6 +22,9 @@ class ChatGptConfigurable : Configurable {
         configPanel.modelsBox.selectedItem?.let {
             state.settings.selectedModel = it.toString()
         }
+        configPanel.rolesBox.selectedItem?.let {
+            state.settings.selectedRole = it.toString()
+        }
     }
 
     override fun getDisplayName(): String {

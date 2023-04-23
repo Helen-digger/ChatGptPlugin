@@ -3,7 +3,7 @@ package com.helen.gptplugin.util
 object TypeUtils {
 
     fun inferType(value: String?): Any? {
-        // isNull narrowest type in the whole chain
+        // isNull the narrowest type in the whole chain
         return IS_NULL.infer(value)
     }
 

@@ -16,11 +16,14 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
     @PropertyValue("chatgpt.selected_model")
     lateinit var selectedModel: String
 
-    @PropertyValue("chatgpt.role")
-    lateinit var role : String
+    @PropertyValue("chatgpt.messages.roles")
+    lateinit var roles : String
+
+    @PropertyValue("chatgpt.messages.selected_role")
+    lateinit var selectedRole: String
 
     @PropertyValue("chatgpt.temperature")
-    var temperature : Long = 0
+    var temperature : Double = 0.0
 
     @PropertyValue("chatgpt.top_p")
     var topP: Long = 0
@@ -77,7 +80,9 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
         other as ChatGptPluginConfiguration
 
         if (model != other.model) return false
-        if (role != other.role) return false
+        if (selectedModel != other.selectedModel) return false
+        if (roles != other.roles) return false
+        if (selectedRole != other.selectedRole) return false
         if (temperature != other.temperature) return false
         if (topP != other.topP) return false
         if (n != other.n) return false
@@ -94,7 +99,9 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
 
     override fun hashCode(): Int {
         var result = model.hashCode()
-        result = 31 * result + role.hashCode()
+        result = 31 * result + selectedModel.hashCode()
+        result = 31 * result + roles.hashCode()
+        result = 31 * result + selectedRole.hashCode()
         result = 31 * result + temperature.hashCode()
         result = 31 * result + topP.hashCode()
         result = 31 * result + n.hashCode()
