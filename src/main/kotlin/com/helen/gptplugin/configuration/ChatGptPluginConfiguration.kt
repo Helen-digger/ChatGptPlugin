@@ -34,7 +34,7 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
     @PropertyValue("chatgpt.stream")
     var stream: Boolean = false
 
-    @PropertyValue("chatgpt.stop_sequence")
+    @PropertyValue("chatgpt.stop")
     lateinit var stopSequence: String //Array<String>
 
     @PropertyValue("chatgpt.max_tokens")

@@ -7,7 +7,9 @@ import javax.swing.JComponent
 
 class ChatGptConfigurable : Configurable {
 
+
     private val configPanel = ChatGptSettingsPanel()
+    private val mutConfigPanel = ChatGptSettingsPanel() // для сравнение с модифицировааной панелью
 
     override fun createComponent(): JComponent {
         return configPanel
