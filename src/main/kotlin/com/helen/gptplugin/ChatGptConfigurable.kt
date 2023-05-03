@@ -2,17 +2,18 @@ package com.helen.gptplugin
 
 import com.helen.gptplugin.configuration.ApplicationConfigurationState
 import com.helen.gptplugin.ui.ChatGptSettingsPanel
+import com.helen.gptplugin.ui.PropertiesChatGptSettingsPanel
 import com.intellij.openapi.options.Configurable
 import javax.swing.JComponent
 
 class ChatGptConfigurable : Configurable {
 
-
-    private val configPanel = ChatGptSettingsPanel()
-    private val mutConfigPanel = ChatGptSettingsPanel() // для сравнение с модифицировааной панелью
+    private val setPanel = ChatGptSettingsPanel()
+    private val configPanel = PropertiesChatGptSettingsPanel()
+    private val mutConfigPanel = PropertiesChatGptSettingsPanel() // для сравнение с модифицировааной панелью
 
     override fun createComponent(): JComponent {
-        return configPanel
+        return setPanel
     }
 
     override fun isModified(): Boolean {
