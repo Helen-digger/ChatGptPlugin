@@ -1,13 +1,14 @@
 package com.helen.gptplugin.ui
 
+import com.helen.gptplugin.configuration.ApplicationConfigurationState
 import com.intellij.ui.components.JBTabbedPane
 import java.awt.BorderLayout
 import javax.swing.JPanel
 
-class ChatGptSettingsPanel : JPanel(BorderLayout()) {
+class ChatGptSettingsPanel(val state: ApplicationConfigurationState) : JPanel(BorderLayout()) {
 
     private val dialog: JPanel = JPanel(BorderLayout())
-    private val propertiesChatGpt: PropertiesChatGptSettingsPanel = PropertiesChatGptSettingsPanel()
+    private val propertiesChatGpt: PropertiesChatGptSettingsPanel = PropertiesChatGptSettingsPanel(state)
 
     init {
         val tabs = JBTabbedPane()

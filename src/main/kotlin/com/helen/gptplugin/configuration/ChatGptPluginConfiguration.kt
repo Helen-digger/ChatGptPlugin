@@ -5,10 +5,10 @@ import com.helen.gptplugin.util.PropertyValue
 import net.jcip.annotations.Immutable
 import org.jetbrains.annotations.NotNull
 
-@Immutable
+//@Immutable
 // todo read about stopSequence, maxTokens, logitBias, user
 // see long or int
-class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
+class ChatGptPluginConfiguration() : InterfacePropertyValueLoader, Comparable<ChatGptPluginConfiguration> {
 
     @PropertyValue("chatgpt.models")
     lateinit var model : String
@@ -38,7 +38,7 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
     lateinit var stopSequence: String //Array<String>
 
     @PropertyValue("chatgpt.max_tokens")
-    lateinit var maxTokens: String //Long
+    var maxTokens: Long = 0
 
     @PropertyValue("chatgpt.presence_penalty")
     var presencePenalty: Long = 0
@@ -54,14 +54,14 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
 
     constructor(@NotNull model: String,
                 @NotNull role: String,
-                temperature: Long,
-                topP: Int,
-                n: Int,
+                temperature: Double,
+                topP: Long,
+                n: Long,
                 stream: Boolean,
                 stopSequence: String, //Array<String>,
-                maxTokens: Int,
-                presencePenalty: Int,
-                frequencyPenalty: Int,
+                maxTokens: Long,
+                presencePenalty: Long,
+                frequencyPenalty: Long,
                 logitBias: String,
                 user: String) : this()
 
@@ -71,6 +71,23 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
 
     fun getDefaultConfig(): ChatGptPluginConfiguration {
         return ChatGptPluginConfiguration()
+    }
+
+    override fun compareTo(other: ChatGptPluginConfiguration): Int {
+        return Comparator
+            .comparing(ChatGptPluginConfiguration::selectedModel)
+            .thenComparing(ChatGptPluginConfiguration::selectedRole)
+            .thenComparing(ChatGptPluginConfiguration::temperature)
+            .thenComparing(ChatGptPluginConfiguration::topP)
+            .thenComparing(ChatGptPluginConfiguration::n)
+            .thenComparing(ChatGptPluginConfiguration::stream)
+            .thenComparing(ChatGptPluginConfiguration::stopSequence)
+            .thenComparing(ChatGptPluginConfiguration::maxTokens)
+            .thenComparing(ChatGptPluginConfiguration::presencePenalty)
+            .thenComparing(ChatGptPluginConfiguration::frequencyPenalty)
+            .thenComparing(ChatGptPluginConfiguration::logitBias)
+            .thenComparing(ChatGptPluginConfiguration::user)
+            .compare(this, other)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -114,4 +131,6 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader {
         result = 31 * result + user.hashCode()
         return result
     }
+
+
 }

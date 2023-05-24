@@ -1,20 +1,23 @@
 package com.helen.gptplugin.ui
 
 import com.helen.gptplugin.configuration.ApplicationConfigurationState
+import com.helen.gptplugin.configuration.ChatGptPluginConfiguration
 import com.helen.gptplugin.util.MessageBundle
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
+import com.intellij.util.containers.stream
 import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
+import java.beans.PropertyChangeSupport
 import javax.swing.JPanel
 
-class PropertiesChatGptSettingsPanel : JPanel(BorderLayout()) {
+class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) : JPanel(BorderLayout()) {
 
     private val COMPONENT_INSETS: Insets = JBUI.insets(4)
 
@@ -59,16 +62,24 @@ class PropertiesChatGptSettingsPanel : JPanel(BorderLayout()) {
     val userLabel: JBLabel = JBLabel(MessageBundle.message("chatgpt.message.setting.user.label"))
     var user: JBTextField = JBTextField()
 
+    lateinit var keyApiPanel: JPanel
+    lateinit var settingPanel: JPanel
+    lateinit var optionalSettingPanel: JPanel
+
     init {
         modelsBox.item = ApplicationConfigurationState.settings.selectedModel
         rolesBox.item = ApplicationConfigurationState.settings.selectedRole
         initialize()
+        buildValues()
     }
 
     private fun initialize() {
-        add(buildApiKeyPanel(), BorderLayout.NORTH)
-        add(buildSettingPanel(), BorderLayout.CENTER)
-        add(buildOptionalSettingPanel(), BorderLayout.SOUTH)
+        keyApiPanel = buildApiKeyPanel()
+        settingPanel = buildSettingPanel()
+        optionalSettingPanel = buildOptionalSettingPanel()
+        add(keyApiPanel, BorderLayout.NORTH)
+        add(settingPanel, BorderLayout.CENTER)
+        add(optionalSettingPanel, BorderLayout.SOUTH)
     }
 
     private fun buildApiKeyPanel() : JPanel {
@@ -174,5 +185,37 @@ class PropertiesChatGptSettingsPanel : JPanel(BorderLayout()) {
                 GridBagConstraints.NONE, COMPONENT_INSETS, 0, 0))
 
         return optionalSettingPanel
+    }
+
+    fun buildValues() {
+        modelsBox.selectedItem = ApplicationConfigurationState.settings.selectedModel
+        rolesBox.selectedItem = ApplicationConfigurationState.settings.selectedRole
+        temperature.text = ApplicationConfigurationState.settings.temperature.toString()
+        topP.text = ApplicationConfigurationState.settings.topP.toString()
+        nField.text = ApplicationConfigurationState.settings.n.toString()
+        stream.text = ApplicationConfigurationState.settings.stream.toString()
+        stop.text = ApplicationConfigurationState.settings.stopSequence
+        maxTokens.text = ApplicationConfigurationState.settings.maxTokens.toString()
+        presencePenalty.text = ApplicationConfigurationState.settings.presencePenalty.toString()
+        frequencyPenalty.text = ApplicationConfigurationState.settings.frequencyPenalty.toString()
+        logitBias.text = ApplicationConfigurationState.settings.logitBias
+        user.text = ApplicationConfigurationState.settings.user
+    }
+
+    fun getCurrentSettings() : ChatGptPluginConfiguration {
+        return ChatGptPluginConfiguration(
+            modelsBox.selectedItem.toString(),
+            rolesBox.selectedItem.toString(),
+            temperature.text.toDouble(),
+            topP.text.toLong(),
+            nField.text.toLong(),
+            stream.text.toBoolean(),
+            stop.text.toString(),
+            maxTokens.text.toLong(),
+            presencePenalty.text.toLong(),
+            frequencyPenalty.text.toLong(),
+            logitBias.text.toString(),
+            user.text.toString()
+        )
     }
 }
