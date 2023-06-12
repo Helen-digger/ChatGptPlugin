@@ -8,7 +8,7 @@ import javax.swing.JPanel
 class ChatGptSettingsPanel(val state: ApplicationConfigurationState) : JPanel(BorderLayout()) {
 
     private val dialog: JPanel = JPanel(BorderLayout())
-    private val propertiesChatGpt: PropertiesChatGptSettingsPanel = PropertiesChatGptSettingsPanel(state)
+    val propertiesChatGpt: PropertiesChatGptSettingsPanel = PropertiesChatGptSettingsPanel(state)
 
     init {
         val tabs = JBTabbedPane()

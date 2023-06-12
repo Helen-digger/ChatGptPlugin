@@ -8,18 +8,17 @@ import javax.swing.JComponent
 
 class ChatGptConfigurable : Configurable {
 
-    private val state = ApplicationConfigurationState
+    private val state = ApplicationConfigurationState.getInstance()
 
     private val setPanel = ChatGptSettingsPanel(state)
-    private val configPanel = PropertiesChatGptSettingsPanel(state)
-    //private val dialogPanel =
 
     override fun createComponent(): JComponent {
         return setPanel
     }
 
     override fun isModified(): Boolean {
-        return configPanel.getCurrentSettings().compareTo(state.settings) != 0
+        val b = setPanel.propertiesChatGpt.getCurrentSettings().compareTo(state.settings)
+        return false
     }
 
     override fun apply() {
@@ -27,40 +26,40 @@ class ChatGptConfigurable : Configurable {
         /*configPanel.apiKey.let {
             state.settings.apiKey = it.toString()
         }*/
-        configPanel.modelsBox.selectedItem?.let {
+        setPanel.propertiesChatGpt.modelsBox.selectedItem?.let {
             state.settings.selectedModel = it.toString()
         }
-        configPanel.rolesBox.selectedItem?.let {
+        setPanel.propertiesChatGpt.rolesBox.selectedItem?.let {
             state.settings.selectedRole = it.toString()
         }
-        configPanel.temperature.let {
+        setPanel.propertiesChatGpt.temperature.let {
             state.settings.temperature = it.text.toDouble()
         }
-        configPanel.topP.let {
+        setPanel.propertiesChatGpt.topP.let {
             state.settings.topP = it.text.toLong()
         }
-        configPanel.nField.let {
+        setPanel.propertiesChatGpt.nField.let {
             state.settings.n = it.text.toLong()
         }
-        configPanel.stream.let {
+        setPanel.propertiesChatGpt.stream.let {
             state.settings.stream = it.text.toBoolean()
         }
-        configPanel.stop.let {
+        setPanel.propertiesChatGpt.stop.let {
             state.settings.stopSequence = it.text.toString()
         }
-        configPanel.maxTokens.let {
+        setPanel.propertiesChatGpt.maxTokens.let {
             state.settings.maxTokens = it.text.toLong()
         }
-        configPanel.presencePenalty.let {
+        setPanel.propertiesChatGpt.presencePenalty.let {
             state.settings.presencePenalty = it.text.toLong()
         }
-        configPanel.frequencyPenalty.let {
+        setPanel.propertiesChatGpt.frequencyPenalty.let {
             state.settings.frequencyPenalty = it.text.toLong()
         }
-        configPanel.logitBias.let {
+        setPanel.propertiesChatGpt.logitBias.let {
             state.settings.logitBias = it.text.toString()
         }
-        configPanel.user.let {
+        setPanel.propertiesChatGpt.user.let {
             state.settings.user = it.text.toString()
         }
     }

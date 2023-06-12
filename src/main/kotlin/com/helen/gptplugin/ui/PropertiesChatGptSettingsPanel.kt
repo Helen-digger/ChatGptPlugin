@@ -187,7 +187,7 @@ class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) :
         return optionalSettingPanel
     }
 
-    fun buildValues() {
+    private fun buildValues() {
         modelsBox.selectedItem = ApplicationConfigurationState.settings.selectedModel
         rolesBox.selectedItem = ApplicationConfigurationState.settings.selectedRole
         temperature.text = ApplicationConfigurationState.settings.temperature.toString()

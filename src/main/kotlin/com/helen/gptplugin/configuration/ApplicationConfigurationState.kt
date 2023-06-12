@@ -1,6 +1,7 @@
 package com.helen.gptplugin.configuration
 
 import com.helen.gptplugin.ChatGptPlugin
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
@@ -10,8 +11,12 @@ import com.intellij.util.xmlb.XmlSerializerUtil
     storages = [Storage(ChatGptPlugin.PLUGIN_STORAGE)])
 object ApplicationConfigurationState : PersistentStateComponent<ApplicationConfigurationState> {
 
-    var settings: ChatGptPluginConfiguration = ChatGptPluginConfiguration().getDefaultConfig()
+    //todo взять недефолтную конфигу, если есть
+    val settings: ChatGptPluginConfiguration = ChatGptPluginConfiguration().getDefaultConfig()
 
+    fun getInstance(): ApplicationConfigurationState {
+        return ApplicationManager.getApplication().getService(ApplicationConfigurationState::class.java)
+    }
     override fun getState(): ApplicationConfigurationState {
         return this
     }
