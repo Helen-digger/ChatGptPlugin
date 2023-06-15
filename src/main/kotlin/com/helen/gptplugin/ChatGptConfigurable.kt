@@ -18,9 +18,12 @@ class ChatGptConfigurable : Configurable {
 
     override fun isModified(): Boolean {
         val b = setPanel.propertiesChatGpt.getCurrentSettings().compareTo(state.settings)
-        return false
+        return b != 0
     }
 
+    // TODO: Нужно добавить на поля валидаторы и не давать сохранять невалидную конфигурацию.
+    // Сейчас вместо невалидных значений сохраняются значения по-умолчанию, для чисел.
+    // TODO: Посмотреть в других плагинах как сделана обработка таких значений
     override fun apply() {
 
         /*configPanel.apiKey.let {

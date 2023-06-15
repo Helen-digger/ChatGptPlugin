@@ -52,23 +52,58 @@ class ChatGptPluginConfiguration() : InterfacePropertyValueLoader, Comparable<Ch
     @PropertyValue("chatgpt.user")
     lateinit var user: String
 
-    constructor(@NotNull model: String,
-                @NotNull role: String,
-                temperature: Double,
-                topP: Long,
-                n: Long,
-                stream: Boolean,
-                stopSequence: String, //Array<String>,
-                maxTokens: Long,
-                presencePenalty: Long,
-                frequencyPenalty: Long,
-                logitBias: String,
-                user: String) : this()
-
+    /**
+     * TODO: Initializer blocks are called for every object construction.
+     * No matter what constructor is used, it is called in consecutive order, i.e. from top to down.
+     *
+     * Correction suggestion: introduce a new variable, that will be used to check if we need to call initProperties.
+     * We only need to call this method if it is created from empty constructor, i.e. fill it with default values.
+     *
+     * Correction suggestion 2: move it to the top, above all non-default constructors, as it done right now
+     */
     init {
         initProperties(this, InterfacePropertyValueLoader.properties)
     }
 
+    /**
+     * TODO: Looks like a bug.
+     * Arguments are passed, but not setted in parent constructor.
+     * IDEA Marks those fields as unused, because they are not, in fact.
+     *
+     * Correction suggestion: It is now correct, but I suggest to create a method in this class, that
+     * will creat current configuration from panel.
+     */
+    constructor(
+        @NotNull model: String,
+        @NotNull role: String,
+        temperature: Double,
+        topP: Long,
+        n: Long,
+        stream: Boolean,
+        stopSequence: String, //Array<String>,
+        maxTokens: Long,
+        presencePenalty: Long,
+        frequencyPenalty: Long,
+        logitBias: String,
+        user: String
+    ) : this() {
+        this.selectedModel = model
+        this.selectedRole = role
+        this.temperature = temperature
+        this.topP = topP
+        this.n = n
+        this.stream = stream
+        this.stopSequence = stopSequence
+        this.maxTokens = maxTokens
+        this.presencePenalty = presencePenalty
+        this.frequencyPenalty = frequencyPenalty
+        this.logitBias = logitBias
+        this.user = user
+    }
+
+    /**
+     * Returns a new object with default configuration
+     */
     fun getDefaultConfig(): ChatGptPluginConfiguration {
         return ChatGptPluginConfiguration()
     }

@@ -204,18 +204,30 @@ class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) :
 
     fun getCurrentSettings() : ChatGptPluginConfiguration {
         return ChatGptPluginConfiguration(
-            modelsBox.selectedItem.toString(),
-            rolesBox.selectedItem.toString(),
-            temperature.text.toDouble(),
-            topP.text.toLong(),
-            nField.text.toLong(),
+            modelsBox.selectedItem?.toString() ?: state.settings.selectedModel,
+            rolesBox.selectedItem?.toString() ?: state.settings.selectedRole,
+            temperature.text.toDoubleOrDefault(state.settings.temperature),
+            topP.text.toLongOrDefault(state.settings.topP),
+            nField.text.toLongOrDefault(state.settings.n),
             stream.text.toBoolean(),
             stop.text.toString(),
-            maxTokens.text.toLong(),
-            presencePenalty.text.toLong(),
-            frequencyPenalty.text.toLong(),
+            maxTokens.text.toLongOrDefault(state.settings.maxTokens),
+            presencePenalty.text.toLongOrDefault(state.settings.presencePenalty),
+            frequencyPenalty.text.toLongOrDefault(state.settings.frequencyPenalty),
             logitBias.text.toString(),
             user.text.toString()
         )
+    }
+
+    /**
+     * This is an utility functions
+     * TODO: Move them somewhere else
+     */
+    fun String.toDoubleOrDefault(default: Double): Double {
+        return this.toDoubleOrNull() ?: default
+    }
+
+    fun String.toLongOrDefault(default: Long): Long {
+        return this.toLongOrNull() ?: default
     }
 }

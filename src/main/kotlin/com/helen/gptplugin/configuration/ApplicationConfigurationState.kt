@@ -12,6 +12,8 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 object ApplicationConfigurationState : PersistentStateComponent<ApplicationConfigurationState> {
 
     //todo взять недефолтную конфигу, если есть
+    //todo most likely it will be called at object creation, loading the default configuration
+    //todo it will call loadState, overwriting the defaults after
     val settings: ChatGptPluginConfiguration = ChatGptPluginConfiguration().getDefaultConfig()
 
     fun getInstance(): ApplicationConfigurationState {
