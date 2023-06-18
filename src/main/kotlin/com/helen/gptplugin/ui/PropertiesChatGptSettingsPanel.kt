@@ -4,18 +4,19 @@ import com.helen.gptplugin.configuration.ApplicationConfigurationState
 import com.helen.gptplugin.configuration.ChatGptPluginConfiguration
 import com.helen.gptplugin.util.MessageBundle
 import com.intellij.openapi.ui.ComboBox
+import com.intellij.profile.codeInspection.ui.table.ThreeStateCheckBoxRenderer
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
-import com.intellij.util.containers.stream
+import com.intellij.ui.treeStructure.treetable.TreeTable
 import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
-import java.beans.PropertyChangeSupport
 import javax.swing.JPanel
+import javax.swing.tree.DefaultTreeModel
 
 class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) : JPanel(BorderLayout()) {
 
@@ -69,11 +70,13 @@ class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) :
     init {
         modelsBox.item = ApplicationConfigurationState.settings.selectedModel
         rolesBox.item = ApplicationConfigurationState.settings.selectedRole
+
         initialize()
         buildValues()
     }
 
     private fun initialize() {
+
         keyApiPanel = buildApiKeyPanel()
         settingPanel = buildSettingPanel()
         optionalSettingPanel = buildOptionalSettingPanel()
@@ -92,6 +95,60 @@ class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) :
             GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
                 GridBagConstraints.NONE, COMPONENT_INSETS, 0, 0))
         return apiPanel
+    }
+
+    private fun buildCasePanel() : TreeTable {
+
+        val casePanel = TreeTable(CaseTreeTableModel())
+        casePanel.border = IdeBorderFactory.createTitledBorder(MessageBundle.message("chatgpt.message.setting.apikey.label"))
+
+        val l = arrayListOf<String>(
+            MessageBundle.message("chatgpt.message.setting.case.explain"),
+            MessageBundle.message("chatgpt.message.setting.case.test"),
+            MessageBundle.message("chatgpt.message.setting.case.doc"),
+            MessageBundle.message("chatgpt.message.setting.case.refactor"),
+            MessageBundle.message("chatgpt.message.setting.case.chat"))
+
+
+        var isEnabledColumn = casePanel.columnModel.getColumn(0);
+        isEnabledColumn.maxWidth = JBUI.scale(20)
+        var boxRenderer = ThreeStateCheckBoxRenderer()
+        boxRenderer.isOpaque = true
+        isEnabledColumn.cellRenderer = boxRenderer
+
+
+
+        /*
+        private void setUpColumns() {
+    var isEnabledColumn = getColumnModel().getColumn(IS_ENABLED_COLUMN);
+    isEnabledColumn.setMaxWidth(JBUI.scale(20 + getAdditionalPadding()));
+    var boxRenderer = new ThreeStateCheckBoxRenderer();
+    boxRenderer.setOpaque(true);
+    isEnabledColumn.setCellRenderer(boxRenderer);
+    isEnabledColumn.setCellEditor(new ThreeStateCheckBoxRenderer());
+
+    var iconsColumn = getColumnModel().getColumn(ICONS_COLUMN);
+    iconsColumn.setCellRenderer(new IconTableCellRenderer<Icon>() {
+      @Override
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focus, int row, int column) {
+        var component = super.getTableCellRendererComponent(table, value, false, focus, row, column);
+        var bgColor = selected ? table.getSelectionBackground() : table.getBackground();
+        component.setBackground(bgColor);
+        ((JLabel) component).setText("");
+        return component;
+      }
+
+      @Override
+      protected Icon getIcon(@NotNull Icon value, JTable table, int row) {
+        return value;
+      }
+    });
+    iconsColumn.setMaxWidth(JBUI.scale(40));
+  }
+         */
+
+
+        return casePanel
     }
 
     private fun buildSettingPanel() : JPanel {

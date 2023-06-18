@@ -5,7 +5,6 @@ import com.helen.gptplugin.util.PropertyValue
 import net.jcip.annotations.Immutable
 import org.jetbrains.annotations.NotNull
 
-//@Immutable
 // todo read about stopSequence, maxTokens, logitBias, user
 // see long or int
 class ChatGptPluginConfiguration() : InterfacePropertyValueLoader, Comparable<ChatGptPluginConfiguration> {
