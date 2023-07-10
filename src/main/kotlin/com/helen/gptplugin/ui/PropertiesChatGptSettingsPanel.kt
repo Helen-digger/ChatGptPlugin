@@ -4,19 +4,30 @@ import com.helen.gptplugin.configuration.ApplicationConfigurationState
 import com.helen.gptplugin.configuration.ChatGptPluginConfiguration
 import com.helen.gptplugin.util.MessageBundle
 import com.intellij.openapi.ui.ComboBox
+import com.intellij.openapi.util.Pair
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.profile.codeInspection.ui.table.ThreeStateCheckBoxRenderer
+import com.intellij.ui.CheckboxTree
+import com.intellij.ui.CheckboxTree.CheckboxTreeCellRenderer
+import com.intellij.ui.CheckedTreeNode
 import com.intellij.ui.IdeBorderFactory
+import com.intellij.ui.SimpleTextAttributes
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
+import com.intellij.ui.treeStructure.SimpleTree
 import com.intellij.ui.treeStructure.treetable.TreeTable
+import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.ui.JBUI
+import com.intellij.util.ui.tree.TreeUtil
 import java.awt.BorderLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
 import javax.swing.JPanel
-import javax.swing.tree.DefaultTreeModel
+import javax.swing.JTree
+import javax.swing.tree.DefaultMutableTreeNode
+import javax.swing.tree.TreeNode
 
 class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) : JPanel(BorderLayout()) {
 
@@ -73,6 +84,7 @@ class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) :
 
         initialize()
         buildValues()
+
     }
 
     private fun initialize() {
@@ -80,7 +92,8 @@ class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) :
         keyApiPanel = buildApiKeyPanel()
         settingPanel = buildSettingPanel()
         optionalSettingPanel = buildOptionalSettingPanel()
-        add(keyApiPanel, BorderLayout.NORTH)
+        val lll = CaseLayoutPanel<String>()
+        add(lll, BorderLayout.NORTH)
         add(settingPanel, BorderLayout.CENTER)
         add(optionalSettingPanel, BorderLayout.SOUTH)
     }
@@ -116,36 +129,7 @@ class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) :
         boxRenderer.isOpaque = true
         isEnabledColumn.cellRenderer = boxRenderer
 
-
-
-        /*
-        private void setUpColumns() {
-    var isEnabledColumn = getColumnModel().getColumn(IS_ENABLED_COLUMN);
-    isEnabledColumn.setMaxWidth(JBUI.scale(20 + getAdditionalPadding()));
-    var boxRenderer = new ThreeStateCheckBoxRenderer();
-    boxRenderer.setOpaque(true);
-    isEnabledColumn.setCellRenderer(boxRenderer);
-    isEnabledColumn.setCellEditor(new ThreeStateCheckBoxRenderer());
-
-    var iconsColumn = getColumnModel().getColumn(ICONS_COLUMN);
-    iconsColumn.setCellRenderer(new IconTableCellRenderer<Icon>() {
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focus, int row, int column) {
-        var component = super.getTableCellRendererComponent(table, value, false, focus, row, column);
-        var bgColor = selected ? table.getSelectionBackground() : table.getBackground();
-        component.setBackground(bgColor);
-        ((JLabel) component).setText("");
-        return component;
-      }
-
-      @Override
-      protected Icon getIcon(@NotNull Icon value, JTable table, int row) {
-        return value;
-      }
-    });
-    iconsColumn.setMaxWidth(JBUI.scale(40));
-  }
-         */
+        val ll = CheckboxTree()
 
 
         return casePanel
