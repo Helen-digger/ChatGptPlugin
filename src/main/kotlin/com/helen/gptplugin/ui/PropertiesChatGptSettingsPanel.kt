@@ -92,10 +92,10 @@ class PropertiesChatGptSettingsPanel(val state: ApplicationConfigurationState) :
         keyApiPanel = buildApiKeyPanel()
         settingPanel = buildSettingPanel()
         optionalSettingPanel = buildOptionalSettingPanel()
-        val lll = CaseLayoutPanel<String>()
-        add(lll, BorderLayout.NORTH)
-        add(settingPanel, BorderLayout.CENTER)
-        add(optionalSettingPanel, BorderLayout.SOUTH)
+        val lll = CaseLayoutPanel()
+        add(lll.splitPane, BorderLayout.CENTER)
+        //add(settingPanel, BorderLayout.CENTER)
+        //add(optionalSettingPanel, BorderLayout.SOUTH)
     }
 
     private fun buildApiKeyPanel() : JPanel {

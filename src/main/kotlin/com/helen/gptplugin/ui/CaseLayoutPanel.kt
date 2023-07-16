@@ -1,40 +1,57 @@
 package com.helen.gptplugin.ui
 
+import com.intellij.ide.plugins.PluginManagerConfigurable
+import com.intellij.openapi.ui.Divider
+import com.intellij.openapi.ui.Splitter
+import com.intellij.ui.OnePixelSplitter
+import com.intellij.ui.components.JBScrollPane
+import com.intellij.util.ui.JBUI
+import java.awt.Color
+import java.awt.Font
+import javax.swing.BorderFactory
 import javax.swing.JLabel
 import javax.swing.JList
 import javax.swing.JPanel
-import javax.swing.JSplitPane
+import javax.swing.JScrollPane
+import javax.swing.ListSelectionModel
 import javax.swing.event.ListSelectionEvent
 import javax.swing.event.ListSelectionListener
 
 
-class CaseLayoutPanel<T> : JPanel(), ListSelectionListener {
+class CaseLayoutPanel : JPanel(), ListSelectionListener {
 
-    private lateinit var configPane: JLabel
-    private lateinit var list: JList<String>
-    private lateinit var splitPane: JSplitPane
+    private var list: JList<String>
+    var splitPane: Splitter
 
-
-    /*lateinit var list: JList<String>
-    private var headerPanel: JPanel? = null
-    private var header: JLabel? = null
+    private val imageNames = arrayOf(
+        "Bird", "Cat", "Dog", "Rabbit", "Pig", "dukeWaveRed",
+        "kathyCosmo", "lainesTongue", "left", "middle", "right", "stickerface"
+    )
     init {
-        layout = BorderLayout()
-        list = JList<String>()
-        headerPanel = JPanel()
-        headerPanel!!.layout = BorderLayout()
-        headerPanel!!.border = BorderFactory.createEtchedBorder()
-        val scroll = JScrollPane(list)
-        add(scroll, BorderLayout.CENTER)
-        header = JLabel("Header", JLabel.CENTER)
-        headerPanel!!.add(header)
-        add(headerPanel, BorderLayout.NORTH)
+        list = JList(imageNames)
+        list.selectionMode = ListSelectionModel.SINGLE_SELECTION
+        list.selectedIndex = 0
+        list.addListSelectionListener(this)
+        val listScrollPane = JBScrollPane(list)
+        listScrollPane.border = JBUI.Borders.empty()
+
+        val prop = ChatGptPropsPanel()
+        prop.border = BorderFactory.createEmptyBorder(0, 20, 0, 0)
+
+        splitPane = object : OnePixelSplitter(false, 0.25f) {
+            override fun createDivider(): Divider {
+                val divider = super.createDivider()
+                divider.background = PluginManagerConfigurable.SEARCH_FIELD_BORDER_COLOR
+                divider.isVisible = false
+                return divider
+            }
+        }
+        splitPane.firstComponent = listScrollPane
+        splitPane.secondComponent = prop
+
     }
 
-    fun setListData(vect: Vector<String>?) {
-        list.setListData(vect)
-    }*/
-    override fun valueChanged(e: ListSelectionEvent?) {
-        TODO("Not yet implemented")
+    override fun valueChanged(e: ListSelectionEvent) {
+        val list = e.source as JList<String>
     }
 }

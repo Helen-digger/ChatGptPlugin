@@ -1,5 +1,8 @@
 package com.helen.gptplugin.util
 
+import com.jgoodies.common.base.Strings
+import java.util.*
+
 object TypeUtils {
 
     fun inferType(value: String?): Any? {
@@ -37,6 +40,12 @@ object TypeUtils {
             return inferType(value) == null
         }
     }
+
+    /*private val IS_LIST: InferStep = object : InferStep() {
+        override fun inferType(value: String?): List<String> {
+            return if (value == null || Strings.isEmpty(value)) Collections.emptyList()
+        }
+    }*/
 
     private val IS_BOOLEAN: InferStep = object : InferStep() {
         override fun inferType(value: String?): Any? {

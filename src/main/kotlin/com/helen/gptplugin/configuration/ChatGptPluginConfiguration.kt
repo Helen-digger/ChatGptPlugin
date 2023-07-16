@@ -9,6 +9,9 @@ import org.jetbrains.annotations.NotNull
 // see long or int
 class ChatGptPluginConfiguration() : InterfacePropertyValueLoader, Comparable<ChatGptPluginConfiguration> {
 
+    @PropertyValue("chatgpt.actions")
+    lateinit var actions : String
+
     @PropertyValue("chatgpt.models")
     lateinit var model : String
 
